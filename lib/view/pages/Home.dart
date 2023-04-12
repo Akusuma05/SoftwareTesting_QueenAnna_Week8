@@ -12,11 +12,25 @@ class _HomeState extends State<Home> {
   final ctrlName = TextEditingController();
   final ctrlemail = TextEditingController();
   final ctrlpas = TextEditingController();
-  String _selectedGender = 'male';
+  String _selectedGender = '';
+  String? _selectedCity = '';
+
+  final _city = [
+    "Surabaya",
+    "Jakarta",
+    "Bandung",
+    "Medan",
+    "Ambon"
+  ];
+
+  _MyFormState(){
+    _selectedCity = _city[0];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Stack(children: [
       Container(
         padding: EdgeInsets.all(16),
@@ -26,7 +40,7 @@ class _HomeState extends State<Home> {
             Container(
               width: double.infinity,
               child: const Text(
-                "Halo Guys",
+                "Register",
                 style: TextStyle(
                     color: Color.fromARGB(255, 40, 107, 53),
                     fontWeight: FontWeight.w900,
@@ -64,6 +78,16 @@ class _HomeState extends State<Home> {
                       },
                     ),
                     SizedBox(height: 16),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Gender", 
+                        style: TextStyle(
+                          fontSize: 16,
+                        )
+                      )
+                    ),
+                    SizedBox(height: 8),
                     ListTile(
                       leading: Radio<String>(
                         value: 'male',
@@ -87,6 +111,23 @@ class _HomeState extends State<Home> {
                         },
                       ),
                       title: const Text('Female'),
+                    ),
+                    DropdownButtonFormField(
+                      items: _city.map(
+                        (e) => DropdownMenuItem(child: Text(e), value: e,)
+                      ).toList(), 
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedCity = value as String;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.arrow_drop_down
+                      ),
+                      decoration: InputDecoration(
+                        labelText: "City",
+                        hintText: "Please select a city"
+                      ),
                     ),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
@@ -116,52 +157,56 @@ class _HomeState extends State<Home> {
                             : null;
                       },
                     ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (ctrlName.text.toString() == "" ||
-                            ctrlpas.text.toString() == "" ||
-                            ctrlemail.text.toString() == "") {
-                          showDialog(
-                              context: context,
-                              builder: ((((context) {
-                                return AlertDialog(
-                                  title: Text("There is an Error!"),
-                                  content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text("Please fill in the blanks!"),
-                                      ]),
-                                );
-                              }))));
-                        } else {
-                          // if (InputData() != null) {
-                          //   FlutterToast.showToast(
-                          //       msg: "You Have Successfully Add an Item",
-                          //       toastLength: Toast.LENGTH_LONG,
-                          //       gravity: ToastGravity.BOTTOM,
-                          //       backgroundColor: Colors.green,
-                          //       textColor: Colors.white,
-                          //       fontSize: 14);
-                          // } else {
-                          //   FlutterToast.showToast(
-                          //       msg: "Failed to Add Item, try Again",
-                          //       toastLength: Toast.LENGTH_LONG,
-                          //       gravity: ToastGravity.BOTTOM,
-                          //       backgroundColor: Colors.red,
-                          //       textColor: Colors.white,
-                          //       fontSize: 14);
-                          // }
-                        }
-                      },
-                      child: const Text(
-                        'Register',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 40, 107, 53),
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(50),
+                    SizedBox(height: 40),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (ctrlName.text.toString() == "" ||
+                              ctrlpas.text.toString() == "" ||
+                              ctrlemail.text.toString() == "") {
+                            showDialog(
+                                context: context,
+                                builder: ((((context) {
+                                  return AlertDialog(
+                                    title: Text("There is an Error!"),
+                                    content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text("Please fill in the blanks!"),
+                                        ]),
+                                  );
+                                }))));
+                          } else {
+                            // if (InputData() != null) {
+                            //   FlutterToast.showToast(
+                            //       msg: "You Have Successfully Add an Item",
+                            //       toastLength: Toast.LENGTH_LONG,
+                            //       gravity: ToastGravity.BOTTOM,
+                            //       backgroundColor: Colors.green,
+                            //       textColor: Colors.white,
+                            //       fontSize: 14);
+                            // } else {
+                            //   FlutterToast.showToast(
+                            //       msg: "Failed to Add Item, try Again",
+                            //       toastLength: Toast.LENGTH_LONG,
+                            //       gravity: ToastGravity.BOTTOM,
+                            //       backgroundColor: Colors.red,
+                            //       textColor: Colors.white,
+                            //       fontSize: 14);
+                            // }
+                          }
+                        },
+                        child: const Text(
+                          'Register',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 40, 107, 53),
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(6),
+                          ),
                         ),
                       ),
                     )
